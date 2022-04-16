@@ -1,0 +1,33 @@
+<div id="map"></div>
+
+<script>
+  const data = JSON.parse(`<%- JSON.stringify(data) %>`);
+
+  require(["esri/config", "esri/Map", "esri/views/MapView"], function (
+    esriConfig,
+    Map,
+    MapView
+  ) {
+    esriConfig.apiKey =
+      "AAPK596242f22e3a476e9c2a1659626be854f9fQF1t8sL3UB8Nn-03XSnxrWFx3Z4FmxlH4lBlENqp3dHn5VuKO18w5k1VE4T7E";
+
+    const map = new Map({
+      basemap: "arcgis-dark-gray", // Basemap layer service
+    });
+
+    const view = new MapView({
+      map: map,
+      center: [data.lon, data.lat], // Longitude, latitude
+      zoom: 13, // Zoom level
+      container: "map", // Div element
+    });
+  });
+</script>
+
+<%- contentFor('styles') %>
+<style>
+  #map {
+    width: 100%;
+    height: 100vh;
+  }
+</style>
