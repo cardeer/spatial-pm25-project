@@ -1,10 +1,9 @@
-const sql = require("mssql");
-
+import sql from "mssql";
 /**
  * Database class that handle all important parts. All methods are static that means you can use it without new keyword
  */
 
-module.exports = class Database {
+export default class Database {
   static async connect() {
     try {
       this.instance = await sql.connect(
@@ -34,4 +33,4 @@ module.exports = class Database {
       console.log(e);
     }
   }
-};
+}

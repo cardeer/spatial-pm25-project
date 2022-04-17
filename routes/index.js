@@ -1,15 +1,15 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const api = require("./api");
-const homeController = require("../controllers/home_controller");
-const exportController = require("../controllers/export_controller");
-const insertController = require("../controllers/insert_controller");
+import apiController from "../controllers/api_controller.js";
+import homeController from "../controllers/home_controller.js";
+import exportController from "../controllers/export_controller.js";
+import insertController from "../controllers/insert_controller.js";
 
 // all routes handler
-router.use("/api", api);
+router.use("/api", apiController);
 router.use("/", homeController);
 router.use("/", exportController);
 router.use("/", insertController);
 
-module.exports = router;
+export default router;

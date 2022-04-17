@@ -1,47 +1,88 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const mapModel = require("../models/api_model");
+import apiModel from "../models/api_model.js";
 
 router.get("/get-all-data", async (req, res) => {
-  const data = await mapModel.getAllData(req.query.year);
+  const data = await apiModel.getAllData(req.query.year);
 
   return res.json(data);
 });
 
 router.get("/5a", async (req, res) => {
-  const data = await mapModel.qa(req.query.year);
+  const data = await apiModel.qa(req.query.year);
 
   return res.json(data);
 });
 
 router.get("/5b", async (req, res) => {
-  const data = await mapModel.qb();
+  const data = await apiModel.qb();
 
   return res.json(data);
 });
 
 router.get("/5c", async (req, res) => {
-  const data = await mapModel.qc();
+  const data = await apiModel.qc();
 
   return res.json(data);
 });
 
 router.get("/5d", async (req, res) => {
-  const data = await mapModel.qd();
+  const data = await apiModel.qd();
 
   return res.json(data);
 });
 
 router.get("/5e", async (req, res) => {
-  const data = await mapModel.qe();
+  const data = await apiModel.qe();
 
   return res.json(data);
 });
 
 router.get("/5f", async (req, res) => {
-  const data = await mapModel.qf(req.query.year);
+  const data = await apiModel.qf(req.query.year);
 
   return res.json(data);
 });
 
-module.exports = router;
+router.get("/4a", async (req, res) => {
+  const data = await apiModel.q4a();
+
+  return res.json(data);
+});
+
+router.get("/4b", async (req, res) => {
+  const data = await apiModel.q4b();
+
+  return res.json(data);
+});
+
+router.get("/4c", async (req, res) => {
+  const data = await apiModel.q4c(req.query.country);
+
+  return res.json(data);
+});
+
+router.get("/4d", async (req, res) => {
+  const data = await apiModel.q4d(req.query.year, req.query.color);
+
+  return res.json(data);
+});
+
+router.post("/download", (req, res) => {
+  const data = req.body.data;
+  const id = apiModel.toExcel(JSON.parse(data));
+
+  res.send(id);
+});
+
+router.get("/download", (req, res) => {
+  res.download(
+    `tmp/${req.query.id}.xlsx`,
+    `spatial-export-${Date.now().toString()}.xlsx`,
+    function () {
+      apiModel.removeFile(req.query.id);
+    }
+  );
+});
+
+export default router;

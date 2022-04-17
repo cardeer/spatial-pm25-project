@@ -1,11 +1,15 @@
-require("dotenv").config();
-const express = require("express");
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
 const app = express();
-
-const path = require("path");
+import path from "path";
 
 // front-end layout library
-const expressLayouts = require("express-ejs-layouts");
+import expressLayouts from "express-ejs-layouts";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // app settings
 app.set("view engine", "ejs");
@@ -20,7 +24,8 @@ app.set("layout extractScripts", true);
 app.set("layout", "./layouts/layout");
 
 // create routes
-app.use("/", require("./routes"));
+import routes from "./routes/index.js";
+app.use("/", routes);
 
 // start server
 app.listen(process.env.PORT, () => {

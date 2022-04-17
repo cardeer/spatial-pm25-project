@@ -90,9 +90,7 @@ async function submit(type) {
 
 const queryTypes = {
   0: async (map) => {
-    const { data } = await axios.get(
-      "http://localhost:3000/api/map/get-all-data"
-    );
+    const { data } = await axios.get("http://localhost:3000/api/get-all-data");
 
     if (data.length === 0) {
       alert("No data");
@@ -102,7 +100,7 @@ const queryTypes = {
     plot(map, data);
   },
   1: async (map, value) => {
-    const { data } = await axios.get("http://localhost:3000/api/map/5a", {
+    const { data } = await axios.get("http://localhost:3000/api/5a", {
       params: {
         year: document.querySelector(`#q5a`).value,
       },
@@ -116,7 +114,7 @@ const queryTypes = {
     plot2(map, data);
   },
   2: async (map) => {
-    const { data } = await axios.get("http://localhost:3000/api/map/5b");
+    const { data } = await axios.get("http://localhost:3000/api/5b");
 
     if (data.length === 0) {
       alert("No data");
@@ -126,7 +124,7 @@ const queryTypes = {
     plot2(map, data);
   },
   3: async (map) => {
-    const { data } = await axios.get("http://localhost:3000/api/map/5c");
+    const { data } = await axios.get("http://localhost:3000/api/5c");
 
     if (data.length === 0) {
       alert("No data");
@@ -136,7 +134,7 @@ const queryTypes = {
     plot2(map, data);
   },
   4: async (map) => {
-    const { data } = await axios.get("http://localhost:3000/api/map/5d");
+    const { data } = await axios.get("http://localhost:3000/api/5d");
 
     if (data.length === 0) {
       alert("No data");
@@ -146,7 +144,7 @@ const queryTypes = {
     plot2(map, data);
   },
   5: async (map) => {
-    const { data } = await axios.get("http://localhost:3000/api/map/5e");
+    const { data } = await axios.get("http://localhost:3000/api/5e");
 
     if (data.length === 0) {
       alert("No data");
@@ -156,7 +154,7 @@ const queryTypes = {
     plot2(map, data);
   },
   6: async (map) => {
-    const { data } = await axios.get("http://localhost:3000/api/map/5f", {
+    const { data } = await axios.get("http://localhost:3000/api/5f", {
       params: {
         year: document.querySelector(`#q5f`).value,
       },

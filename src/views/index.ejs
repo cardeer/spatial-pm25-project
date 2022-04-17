@@ -1,11 +1,11 @@
 <div id="map"></div>
 
 <div class="queries">
-  <div class="button" onclick="toggleQueries()">Q</div>
+  <div class="toggle-button" onclick="toggleQueries()">Q</div>
   <div class="queries-menu">
     <p class="my-0">Query all data</p>
     <button
-      class="submit-button"
+      class="submit-button button"
       style="background-color: rgb(203, 42, 42)"
       onclick="submit(0)"
     >
@@ -16,14 +16,14 @@
 
     <p class="my-0">5 (a). All city points by year</p>
     <input class="input" placeholder="Year" type="number" id="q5a" />
-    <button class="submit-button" onclick="submit(1)">
+    <button class="submit-button button" onclick="submit(1)">
       submit
     </button>
 
     <hr />
 
     <p class="my-0">5 (b). 50 closest city points to Bangkok</p>
-    <button class="submit-button" onclick="submit(2)" style="background-color: rgb(203, 42, 42)">
+    <button class="submit-button button" onclick="submit(2)" style="background-color: rgb(203, 42, 42)">
       query
     </button>
 
@@ -32,7 +32,7 @@
     <p class="my-0">
       5 (c). City points of Thailand’s neighboring countries in 2018
     </p>
-    <button class="submit-button" onclick="submit(3)" style="background-color: rgb(203, 42, 42)">
+    <button class="submit-button button" onclick="submit(3)" style="background-color: rgb(203, 42, 42)">
       query
     </button>
 
@@ -41,7 +41,7 @@
     <p class="my-0">
       5 (d). Four points of MBR covering all city points in Thailand in 2009
     </p>
-    <button class="submit-button" onclick="submit(4)" style="background-color: rgb(203, 42, 42)">
+    <button class="submit-button button" onclick="submit(4)" style="background-color: rgb(203, 42, 42)">
       query
     </button>
 
@@ -51,7 +51,7 @@
       5 (e). City points of countries having the highest no. of city points in
       2011
     </p>
-    <button class="submit-button" onclick="submit(5)" style="background-color: rgb(203, 42, 42)">
+    <button class="submit-button button" onclick="submit(5)" style="background-color: rgb(203, 42, 42)">
       query
     </button>
 
@@ -59,7 +59,7 @@
 
     <p class="my-0">5 (f). City points which are considered as “low income</p>
     <input class="input" placeholder="Year" type="number" id="q5f" />
-    <button class="submit-button" onclick="submit(6)"=>
+    <button class="submit-button button" onclick="submit(6)"=>
       submit
     </button>
   </div>

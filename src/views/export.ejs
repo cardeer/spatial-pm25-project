@@ -1,0 +1,66 @@
+<div class="container">
+  <select id="type" class="input" onchange="onSelectChange(this)">
+    <option value="1" selected>
+      a. List country and city names whose PM 2.5 values are greater than 50 in
+      2015
+    </option>
+    <option value="2">b. Calculate the AVG(PM 2.5) by country</option>
+    <option value="3">c. Show a historical PM 2.5 values</option>
+    <option value="4">d. Calculate a total of the affected population</option>
+  </select>
+
+  <div id="additional-inputs" style="margin-top: 10px"></div>
+
+  <button
+    class="button"
+    id="query-button"
+    style="color: white; background-color: rgb(18, 144, 18)"
+  >
+    query
+  </button>
+
+  <div id="table-wrapper" style="margin-top: 30px; display: none">
+    <div class="export" onclick="toExcel()" style="cursor: pointer">
+      🔥 Export to Excel 🔥
+    </div>
+
+    <table style="margin-top: 20px">
+      <thead>
+        <tr></tr>
+      </thead>
+
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const additional = document.querySelector("#additional-inputs");
+
+  function onSelectChange(e) {
+    if (e.value === "3") {
+      additional.style.margin = "10px 0";
+      additional.innerHTML = `
+        <input class="input" type="text" id="country" placeholder="Country" />
+      `;
+    } else if (e.value === "4") {
+      additional.style.margin = "10px 0";
+      additional.innerHTML = `
+        <input class="input" type="number" id="year" placeholder="Year" />
+        <input class="input" type="text" id="color" placeholder="Color (PM 2.5)" />
+      `;
+    } else {
+      additional.style.margin = "10px 0 0 0";
+      additional.innerHTML = "";
+    }
+  }
+
+  document.querySelector("#query-button").addEventListener("click", () => {
+    submit(document.querySelector("#type").value);
+  });
+</script>
+
+<script src="js/export.js"></script>
+
+<%- contentFor('styles') %>
+<link rel="stylesheet" href="styles/export.css" />

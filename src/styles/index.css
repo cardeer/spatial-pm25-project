@@ -11,13 +11,14 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   transition: right 0.3s ease;
+  z-index: 999;
 }
 
 .queries.open {
   right: 0;
 }
 
-.queries .button {
+.queries .toggle-button {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -51,24 +52,6 @@
   width: 100%;
 }
 
-input.input {
-  display: block;
-  padding: 10px;
-  width: 100%;
-  font-size: 16px;
-  border: none;
-  outline: none;
-}
-
 .submit-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  color: white;
-  font-weight: bold;
-  text-transform: uppercase;
   background-color: rgb(31, 177, 31);
-  outline: none;
-  border: none;
-  cursor: pointer;
 }

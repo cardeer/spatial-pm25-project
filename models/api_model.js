@@ -1,21 +1,28 @@
-const db = require("../database");
+import * as xlsx from "xlsx/xlsx.mjs";
+import fs from "fs";
+import { Readable } from "stream";
+import * as cpexcel from "xlsx/dist/cpexcel.full.mjs";
+import { nanoid } from "nanoid";
 
-module.exports.getAllData = async () => {
-  const result = await db.query(`select * from AirPollutionPM25`);
+import db from "../database.js";
 
-  return result?.recordset;
-};
+export default {
+  getAllData: async () => {
+    const result = await db.query(`select * from AirPollutionPM25`);
 
-module.exports.qa = async (year) => {
-  const result = await db.query(
-    `select * from AirPollutionPM25 where Year = ${year}`
-  );
+    return result?.recordset;
+  },
 
-  return result?.recordset;
-};
+  qa: async (year) => {
+    const result = await db.query(
+      `select * from AirPollutionPM25 where Year = ${year}`
+    );
 
-module.exports.qb = async () => {
-  const result = await db.query(`
+    return result?.recordset;
+  },
+
+  qb: async () => {
+    const result = await db.query(`
     declare @bangkok geometry
     select @bangkok = Geom
     from AirPollutionPM25
@@ -27,11 +34,11 @@ module.exports.qb = async () => {
     order by dist asc
   `);
 
-  return result?.recordset;
-};
+    return result?.recordset;
+  },
 
-module.exports.qc = async () => {
-  const result = await db.query(`
+  qc: async () => {
+    const result = await db.query(`
     declare @th geometry = 'polygon empty'
     select @th = Geom
     from world
@@ -42,48 +49,101 @@ module.exports.qc = async () => {
     ) and Year = 2018
   `);
 
-  return result?.recordset;
-};
+    return result?.recordset;
+  },
 
-module.exports.qd = async () => {
-  const result = await db.query(`
-    select geometry::EnvelopeAggregate(Geom).ToString() polygon from AirPollutionPM25 where country = 'Thailand and Year = 2009'
+  qd: async () => {
+    const result = await db.query(`
+    select geometry::EnvelopeAggregate(Geom).ToString() polygon from AirPollutionPM25 where country = 'Thailand' and Year = 2009
   `);
 
-  if (!result.recordset[0].polygon) return [];
+    if (!result.recordset[0].polygon) return [];
 
-  let split = result?.recordset[0]?.polygon
-    .replace(/POLYGON|\(|\)|,/g, "")
-    .split(" ")
-    .slice(1)
-    .map((e) => Number.parseFloat(e));
+    let split = result?.recordset[0]?.polygon
+      .replace(/POLYGON|\(|\)|,/g, "")
+      .split(" ")
+      .slice(1)
+      .map((e) => Number.parseFloat(e));
 
-  const data = [];
+    const data = [];
 
-  for (let i = 0; i < split.length; i += 2) {
-    data.push({
-      longitude: split[i],
-      latitude: split[i + 1],
-    });
-  }
+    for (let i = 0; i < split.length; i += 2) {
+      data.push({
+        longitude: split[i],
+        latitude: split[i + 1],
+      });
+    }
 
-  return data;
-};
+    return data;
+  },
 
-module.exports.qe = async () => {
-  const result = await db.query(`
+  qe: async () => {
+    const result = await db.query(`
     select * from AirPollutionPM25 where country in (
       select top 1 country from AirPollutionPM25 group by country order by count(*) desc
     )
   `);
 
-  return result?.recordset;
-};
+    return result?.recordset;
+  },
 
-module.exports.qf = async (year) => {
-  const result = await db.query(`
+  qf: async (year) => {
+    const result = await db.query(`
     select * from AirPollutionPM25 where wbinc16_text = 'Low income' and Year = ${year}
   `);
 
-  return result?.recordset;
+    return result?.recordset;
+  },
+
+  q4a: async () => {
+    const result = await db.query(`
+    select country, city from AirPollutionPM25 where conc_pm25 = '>50' and Year = 2015
+  `);
+
+    return result?.recordset;
+  },
+
+  q4b: async () => {
+    const result = await db.query(`
+    select country, avg(pm25) pm25_avg from AirPollutionPM25 group by country order by pm25_avg desc
+  `);
+
+    return result?.recordset;
+  },
+
+  q4c: async (country) => {
+    const result = await db.query(`
+    select country, Year, pm25 from AirPollutionPM25 where lower(country) = '${country.toLowerCase()}' order by Year asc
+  `);
+
+    return result?.recordset;
+  },
+
+  q4d: async (year, color) => {
+    const result = await db.query(`
+    select sum(population) affected from AirPollutionPM25 where year = ${year} and color_pm25 = '${color}'
+  `);
+
+    return result?.recordset;
+  },
+
+  removeFile: (id) => {
+    fs.unlinkSync(`tmp/${id}.xlsx`);
+  },
+
+  toExcel: (data) => {
+    xlsx.set_fs(fs);
+    xlsx.stream.set_readable(Readable);
+    xlsx.set_cptable(cpexcel);
+
+    const sheet = xlsx.utils.json_to_sheet(data);
+    const wb = xlsx.utils.book_new();
+
+    xlsx.utils.book_append_sheet(wb, sheet, "export");
+
+    const id = nanoid();
+    xlsx.writeFileSync(wb, `tmp/${id}.xlsx`);
+
+    return id;
+  },
 };
