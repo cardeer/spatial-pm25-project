@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="styles/global.css" />
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <link
       rel="stylesheet"
       href="https://js.arcgis.com/4.23/esri/themes/dark/main.css"
@@ -18,6 +20,14 @@
   </head>
 
   <body>
+    <nav class="navbar">
+      <div class="navbar-links">
+        <a href="/" class="navbar-link">Map</a>
+        <a href="/export" class="navbar-link">Queries</a>
+        <a href="/insert" class="navbar-link">Insert</a>
+      </div>
+    </nav>
+
     <%- body %>
 
     <!-- script section -->

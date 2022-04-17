@@ -1,5 +1,9 @@
 const sql = require("mssql");
 
+/**
+ * Database class that handle all important parts. All methods are static that means you can use it without new keyword
+ */
+
 module.exports = class Database {
   static async connect() {
     try {
@@ -14,6 +18,20 @@ module.exports = class Database {
   static async close() {
     if (this.instance != null) {
       await this.instance.close();
+    }
+  }
+
+  static async query(str) {
+    try {
+      await this.connect();
+
+      const result = await this.instance.query(str);
+
+      await this.close();
+      return result;
+    } catch (e) {
+      await this.close();
+      console.log(e);
     }
   }
 };

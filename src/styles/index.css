@@ -1,0 +1,74 @@
+#map {
+  width: 100%;
+  height: calc(100vh - 60px);
+}
+
+.queries {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 350px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: right 0.3s ease;
+}
+
+.queries.open {
+  right: 0;
+}
+
+.queries .button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: -60px;
+  top: calc(60px + 20px);
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #242424;
+  border-radius: 100%;
+  border: 1px solid white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.queries-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  width: 100%;
+  height: 100%;
+  color: white;
+  overflow: hidden auto;
+}
+
+.queries-menu hr {
+  width: 100%;
+}
+
+input.input {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  border: none;
+  outline: none;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: rgb(31, 177, 31);
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

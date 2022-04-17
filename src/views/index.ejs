@@ -1,33 +1,87 @@
 <div id="map"></div>
 
+<div class="queries">
+  <div class="button" onclick="toggleQueries()">Q</div>
+  <div class="queries-menu">
+    <p class="my-0">Query all data</p>
+    <button
+      class="submit-button"
+      style="background-color: rgb(203, 42, 42)"
+      onclick="submit(0)"
+    >
+      query
+    </button>
+
+    <hr />
+
+    <p class="my-0">5 (a). All city points by year</p>
+    <input class="input" placeholder="Year" type="number" id="q5a" />
+    <button class="submit-button" onclick="submit(1)">
+      submit
+    </button>
+
+    <hr />
+
+    <p class="my-0">5 (b). 50 closest city points to Bangkok</p>
+    <button class="submit-button" onclick="submit(2)" style="background-color: rgb(203, 42, 42)">
+      query
+    </button>
+
+    <hr />
+
+    <p class="my-0">
+      5 (c). City points of Thailand’s neighboring countries in 2018
+    </p>
+    <button class="submit-button" onclick="submit(3)" style="background-color: rgb(203, 42, 42)">
+      query
+    </button>
+
+    <hr />
+
+    <p class="my-0">
+      5 (d). Four points of MBR covering all city points in Thailand in 2009
+    </p>
+    <button class="submit-button" onclick="submit(4)" style="background-color: rgb(203, 42, 42)">
+      query
+    </button>
+
+    <hr />
+
+    <p class="my-0">
+      5 (e). City points of countries having the highest no. of city points in
+      2011
+    </p>
+    <button class="submit-button" onclick="submit(5)" style="background-color: rgb(203, 42, 42)">
+      query
+    </button>
+
+    <hr />
+
+    <p class="my-0">5 (f). City points which are considered as “low income</p>
+    <input class="input" placeholder="Year" type="number" id="q5f" />
+    <button class="submit-button" onclick="submit(6)"=>
+      submit
+    </button>
+  </div>
+</div>
+
+
+<script src="js/arc_init.js"></script>
+<script src="js/map.js"></script>
+
 <script>
-  const data = JSON.parse(`<%- JSON.stringify(data) %>`);
+  let arc, map;
 
-  require(["esri/config", "esri/Map", "esri/views/MapView"], function (
-    esriConfig,
-    Map,
-    MapView
-  ) {
-    esriConfig.apiKey =
-      "AAPK596242f22e3a476e9c2a1659626be854f9fQF1t8sL3UB8Nn-03XSnxrWFx3Z4FmxlH4lBlENqp3dHn5VuKO18w5k1VE4T7E";
+  (async function () {
+    arc = await initArc();
+    map = createMap(arc);
+  })();
 
-    const map = new Map({
-      basemap: "arcgis-dark-gray", // Basemap layer service
-    });
-
-    const view = new MapView({
-      map: map,
-      center: [data.lon, data.lat], // Longitude, latitude
-      zoom: 13, // Zoom level
-      container: "map", // Div element
-    });
-  });
+  const queries = document.querySelector(".queries");
+  function toggleQueries() {
+    queries.classList.toggle("open");
+  }
 </script>
 
 <%- contentFor('styles') %>
-<style>
-  #map {
-    width: 100%;
-    height: 100vh;
-  }
-</style>
+<link rel="stylesheet" href="styles/index.css" />
