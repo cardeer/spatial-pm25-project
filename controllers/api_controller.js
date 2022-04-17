@@ -2,6 +2,9 @@ import express from "express";
 const router = express.Router();
 import apiModel from "../models/api_model.js";
 
+import multer from "multer";
+const upload = multer();
+
 router.get("/get-all-data", async (req, res) => {
   const data = await apiModel.getAllData(req.query.year);
 
@@ -83,6 +86,12 @@ router.get("/download", (req, res) => {
       apiModel.removeFile(req.query.id);
     }
   );
+});
+
+router.post("/add-data", upload.single("file"), async (req, res) => {
+  const ok = await apiModel.insertToDB(req.file.buffer);
+
+  res.send(ok);
 });
 
 export default router;

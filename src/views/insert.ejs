@@ -1,0 +1,29 @@
+<div class="container">
+  <input type="file" id="file" class="input" />
+
+  <button
+    class="button"
+    style="margin-top: 10px; background-color: rgb(18, 144, 18)"
+    onclick="submit()"
+  >
+    insert
+  </button>
+</div>
+
+<script>
+  async function submit() {
+    const formData = new FormData();
+    const files = document.querySelector("#file").files;
+    formData.append("file", files[0]);
+
+    const { data } = await axios.post(
+      "http://localhost:3000/api/add-data",
+      formData
+    );
+    if (data) {
+      alert("Insert success!!");
+    } else {
+      alert("Insert failed");
+    }
+  }
+</script>

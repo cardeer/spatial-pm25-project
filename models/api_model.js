@@ -3,6 +3,7 @@ import fs from "fs";
 import { Readable } from "stream";
 import * as cpexcel from "xlsx/dist/cpexcel.full.mjs";
 import { nanoid } from "nanoid";
+import SqlString from "tsqlstring";
 
 import db from "../database.js";
 
@@ -145,5 +146,64 @@ export default {
     xlsx.writeFileSync(wb, `tmp/${id}.xlsx`);
 
     return id;
+  },
+
+  insertToDB: async (file) => {
+    xlsx.set_fs(fs);
+    xlsx.stream.set_readable(Readable);
+    xlsx.set_cptable(cpexcel);
+
+    const wb = xlsx.read(file);
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+
+    const data = xlsx.utils.sheet_to_json(sheet);
+
+    try {
+      await db.connect();
+
+      for (let i = 0; i < data.length; i++) {
+        const e = data[i];
+
+        const sql = SqlString.format(
+          `
+        insert into AirPollutionPM25 (
+          country, city, Year, pm25, latitude, longitude, population, wbinc16_text, Region, conc_pm25, color_pm25, Geom
+        )
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        `,
+          [
+            e.country,
+            e.city,
+            e.Year,
+            e.pm25,
+            e.latitude,
+            e.longitude,
+            e.population,
+            e.wbinc16_text,
+            e.Region,
+            e.conc_pm25,
+            e.color_pm25,
+            null,
+          ]
+        );
+
+        await db.instance.query(sql);
+      }
+
+      await db.instance.query(`
+        update AirPollutionPM25
+        set Geom = geometry::STGeomFromText(
+          'POINT(' + convert(nvarchar(255), longitude) + ' ' + convert(nvarchar(255), latitude) + ')',
+          4326
+        );
+      `);
+
+      await db.close();
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+
+    return true;
   },
 };
