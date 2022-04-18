@@ -89,9 +89,12 @@ router.get("/download", (req, res) => {
 });
 
 router.post("/add-data", upload.single("file"), async (req, res) => {
-  const ok = await apiModel.insertToDB(req.file.buffer);
+  const { ok, msg } = await apiModel.insertToDB(req.file.buffer);
 
-  res.send(ok);
+  res.send({
+    ok,
+    msg,
+  });
 });
 
 export default router;

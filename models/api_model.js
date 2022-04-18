@@ -201,9 +201,15 @@ export default {
       await db.close();
     } catch (e) {
       console.log(e);
-      return false;
+      return {
+        ok: false,
+        msg: e.message,
+      };
     }
 
-    return true;
+    return {
+      ok: true,
+      msg: "",
+    };
   },
 };

@@ -8,10 +8,14 @@
   >
     insert
   </button>
+
+  <div id="error" style="margin-top: 30px"></div>
 </div>
 
 <script>
   async function submit() {
+    document.querySelector("#error").innerHTML = "";
+
     const formData = new FormData();
     const files = document.querySelector("#file").files;
     formData.append("file", files[0]);
@@ -20,10 +24,11 @@
       "http://localhost:3000/api/add-data",
       formData
     );
-    if (data) {
+    if (data.ok) {
       alert("Insert success!!");
     } else {
       alert("Insert failed");
+      document.querySelector("#error").innerText = data.msg;
     }
   }
 </script>
