@@ -1,3 +1,5 @@
+// handle api routes
+
 import express from "express";
 const router = express.Router();
 import apiModel from "../models/api_model.js";
@@ -71,6 +73,7 @@ router.get("/4d", async (req, res) => {
   return res.json(data);
 });
 
+// create excel file
 router.post("/download", (req, res) => {
   const data = req.body.data;
   const id = apiModel.toExcel(JSON.parse(data));
@@ -78,6 +81,7 @@ router.post("/download", (req, res) => {
   res.send(id);
 });
 
+// download excel file that just created
 router.get("/download", (req, res) => {
   res.download(
     `tmp/${req.query.id}.xlsx`,
@@ -88,6 +92,7 @@ router.get("/download", (req, res) => {
   );
 });
 
+// insert excel to table
 router.post("/add-data", upload.single("file"), async (req, res) => {
   const { ok, msg } = await apiModel.insertToDB(req.file.buffer);
 

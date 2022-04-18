@@ -1,4 +1,5 @@
 import sql from "mssql";
+
 /**
  * Database class that handle all important parts. All methods are static that means you can use it without new keyword
  */
